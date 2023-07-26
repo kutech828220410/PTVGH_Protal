@@ -154,7 +154,7 @@ namespace HIS_WebApi
             List<object[]> list_output = sQLControl.GetAllRows(null);
             List<object[]> list_output_buf = new List<object[]>();
             string 輸出位置 = output_position[num];
-            list_output_buf.GetRows((int)enum_輸出資料表.輸出位置, 輸出位置);
+            list_output_buf = list_output.GetRows((int)enum_輸出資料表.輸出位置, 輸出位置);
             if (list_output_buf.Count == 0)
             {
                 object[] temp = new object[new enum_輸出資料表().GetLength()];
@@ -221,7 +221,7 @@ namespace HIS_WebApi
             List<object[]> list_output = sQLControl.GetAllRows(null);
             List<object[]> list_output_buf = new List<object[]>();
             string 輸出位置 = output_position[num];
-            list_output_buf.GetRows((int)enum_輸出資料表.輸出位置, 輸出位置);
+            list_output_buf = list_output.GetRows((int)enum_輸出資料表.輸出位置, 輸出位置);
             if (list_output_buf.Count == 0)
             {
                 object[] temp = new object[new enum_輸出資料表().GetLength()];
@@ -288,7 +288,7 @@ namespace HIS_WebApi
             List<object[]> list_output = sQLControl.GetAllRows(null);
             List<object[]> list_output_buf = new List<object[]>();
             string 輸出位置 = output_position[num];
-            list_output_buf.GetRows((int)enum_輸出資料表.輸出位置, 輸出位置);
+            list_output_buf = list_output.GetRows((int)enum_輸出資料表.輸出位置, 輸出位置);
             if (list_output_buf.Count == 0)
             {
                 object[] temp = new object[new enum_輸出資料表().GetLength()];
