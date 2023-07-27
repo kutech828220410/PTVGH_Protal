@@ -119,6 +119,7 @@ namespace HIS_WebApi
 
             List<string> output_position = new List<string>();
 
+
             output_position.Add("Y40");
             output_position.Add("Y41");
             output_position.Add("Y42");
