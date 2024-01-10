@@ -146,6 +146,8 @@ namespace 屏東榮總傳送櫃
 
             sqL_DataGridView_輸入資料表.SQL_GetAllRows(true);
 
+            this.WindowState = FormWindowState.Minimized;
+
             myThread = new MyThread();
             myThread.AutoRun(true);
             myThread.Add_Method(sub_program);

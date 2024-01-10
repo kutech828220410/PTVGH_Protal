@@ -7,7 +7,7 @@
     <ProjectGuid>{79041C39-2F2B-4A38-8A4C-A9A8874D6D55}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>屏東榮總傳送櫃</RootNamespace>
-    <AssemblyName>屏東榮總傳送櫃%2827格%29</AssemblyName>
+    <AssemblyName>protal</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
