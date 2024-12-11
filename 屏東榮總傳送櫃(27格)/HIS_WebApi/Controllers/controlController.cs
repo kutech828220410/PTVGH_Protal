@@ -370,17 +370,52 @@ namespace HIS_WebApi
                 output_position.Add("Y31");
                 output_position.Add("Y32");
 
+                #region input
+                List<string> input_position = new List<string>();
+                input_position.Add("X0");
+                input_position.Add("X1");
+                input_position.Add("X2");
+                input_position.Add("X3");
+                input_position.Add("X4");
+                input_position.Add("X5");
+                input_position.Add("X6");
+                input_position.Add("X7");
+                input_position.Add("X10");
+                input_position.Add("X11");
+                input_position.Add("X12");
+                input_position.Add("X13");
+                input_position.Add("X14");
+                input_position.Add("X15");
+                input_position.Add("X16");
+                input_position.Add("X17");
+                input_position.Add("X20");
+                input_position.Add("X21");
+                input_position.Add("X22");
+                input_position.Add("X23");
+                input_position.Add("X24");
+                input_position.Add("X25");
+                input_position.Add("X26");
+                input_position.Add("X27");
+                input_position.Add("X30");
+                input_position.Add("X31");
+                input_position.Add("X32");
+                #endregion
+                int retry = 0;
                 List<outputClass> outputClasses = new List<outputClass>();
                 List<outputClass> outputClasses_buf = new List<outputClass>();
                 SQLControl sQLControl = new SQLControl("127.0.0.1", "portal", "user", "66437068", MySqlSslMode.None);
                 sQLControl.TableName = "output_list";
+                SQLControl sQLControl_input_list = new SQLControl("127.0.0.1", "portal", "user", "66437068", MySqlSslMode.None);
+                sQLControl_input_list.TableName = "input_list";
                 List<object[]> list_output = sQLControl.GetAllRows(null);
                 List<object[]> list_output_buf = new List<object[]>();
                 string 輸出位置 = output_position[num];
+                string 輸入位置 = input_position[num];
+                object[] temp = null;
                 list_output_buf = list_output.GetRows((int)enum_輸出資料表.輸出位置, 輸出位置);
                 if (list_output_buf.Count == 0)
                 {
-                    object[] temp = new object[new enum_輸出資料表().GetLength()];
+                    temp = new object[new enum_輸出資料表().GetLength()];
                     temp[(int)enum_輸出資料表.GUID] = Guid.NewGuid().ToString();
                     temp[(int)enum_輸出資料表.輸出位置] = 輸出位置;
                     temp[(int)enum_輸出資料表.輸出狀態] = true.ToString();
@@ -389,11 +424,34 @@ namespace HIS_WebApi
                 }
                 else
                 {
-                    object[] temp = list_output_buf[0];
+                    temp = list_output_buf[0];
                     list_output_buf[0][(int)enum_輸出資料表.輸出位置] = 輸出位置;
                     list_output_buf[0][(int)enum_輸出資料表.輸出狀態] = true.ToString();
                     list_output_buf[0][(int)enum_輸出資料表.狀態更新] = true.ToString();
                     sQLControl.UpdateByDefulteExtra(null, list_output_buf);
+                }
+                while (true)
+                {
+                    if (retry >= 5)
+                    {
+                        Logger.Log($"dooropen : {value} , Get failed");
+                        return "NG";
+                    }
+                    List<object[]> list_input = sQLControl_input_list.GetRowsByDefult(null, (int)enum_輸入資料表.輸入位置, 輸入位置);
+                    if (list_input.Count == 0) break;
+                    if(list_input[0][(int)enum_輸入資料表.輸入狀態].ObjectToString().StringToBool() == true)
+                    {
+                        list_output_buf[0][(int)enum_輸出資料表.輸出位置] = 輸出位置;
+                        list_output_buf[0][(int)enum_輸出資料表.輸出狀態] = true.ToString();
+                        list_output_buf[0][(int)enum_輸出資料表.狀態更新] = true.ToString();
+                        sQLControl.UpdateByDefulteExtra(null, list_output_buf);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                    System.Threading.Thread.Sleep(500);
+                    retry++;
                 }
                 Logger.Log($"dooropen : {value} , Get sucess");
 
